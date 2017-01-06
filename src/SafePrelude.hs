@@ -428,4 +428,23 @@ null = foldr (\_ _ -> False) True
 -- cons-lists, because there is no general way to do better.
 length :: t a -> Int
 length = foldl' (\c _ -> c+1) 0
+
+-- | '&' is a reverse application operator.  This provides notational
+-- convenience.  Its precedence is one higher than that of the forward
+-- application operator '$', which allows '&' to be nested in '$'.
+--
+-- @since 4.8.0.0
+(&) :: a -> (a -> b) -> b
+x & f = f x
+
+
+-- | Strict version of 'Data.Functor.<$>'.
+--
+-- @since 4.8.0.0
+(<$!>) :: Monad m => (a -> b) -> m a -> m b
+{-# INLINE (<$!>) #-}
+f <$!> m = do
+  x <- m
+  let z = f x
+  z `seq` return z
 #endif
