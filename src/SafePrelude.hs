@@ -109,9 +109,9 @@ module SafePrelude
     , for_
     , sequenceA_
     , asum
-    , mapM_
-    , forM_
-    , sequence_
+    , SafePrelude.mapM_
+    , SafePrelude.forM_
+    , SafePrelude.sequence_
     , msum
     , concat
     , concatMap
@@ -122,10 +122,10 @@ module SafePrelude
     , notElem
     , find
       -- ** Traversable
-    , mapM
-    , sequence
+    , SafePrelude.mapM
+    , SafePrelude.sequence
     , for
-    , forM
+    , SafePrelude.forM
     , mapAccumL
     , mapAccumR
       -- ** Functor
@@ -369,3 +369,44 @@ readFileUtf8 = liftIO . fmap decodeUtf8 . readFile
 -- @since 0.1.0.0
 writeFileUtf8 :: MonadIO m => IO.FilePath -> Text -> m ()
 writeFileUtf8 fp = liftIO . writeFile fp . encodeUtf8
+
+-- | Synonym for 'traverse_'; different from base to generalize to
+-- 'Applicative'.
+--
+-- @since 0.1.0.0
+mapM_ :: (Applicative m, Foldable f) => (a -> m b) -> f a -> m ()
+mapM_ = traverse_
+
+
+-- | Flipped version of 'mapM_'.
+--
+-- @since 0.1.0.0
+forM_ :: (Applicative m, Foldable f) => f a -> (a -> m b) -> m ()
+forM_ = for_
+
+-- | Synonym for 'sequence_'; different from base to generalize to
+-- 'Applicative'.
+--
+-- @since 0.1.0.0
+sequence_ :: (Applicative m, Foldable f) => f (m a) -> m ()
+sequence_ = sequenceA_
+
+-- | Synonym for 'traverse'; different from base to generalize to
+-- 'Applicative'.
+--
+-- @since 0.1.0.0
+mapM :: (Applicative m, Traversable t) => (a -> m b) -> t a -> m (t b)
+mapM = traverse
+
+-- | Flipped version of 'mapM'.
+--
+-- @since 0.1.0.0
+forM :: (Applicative m, Traversable t) => t a -> (a -> m b) -> m (t b)
+forM = for
+
+-- | Synonym for 'sequenceA'; different from base to generalize to
+-- 'Applicative'.
+--
+-- @since 0.1.0.0
+sequence :: (Applicative m, Traversable t) => t (m a) -> m (t a)
+sequence = sequenceA
