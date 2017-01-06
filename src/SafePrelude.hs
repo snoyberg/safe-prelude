@@ -3,12 +3,12 @@
 -- to MonadIO
 module SafePrelude
     ( -- * Types
-      Maybe (..)
-    , Ordering (..)
+      Prelude.Maybe (..)
+    , Prelude.Ordering (..)
     , Bool (..)
     , Char
     , IO
-    , Either (..)
+    , Prelude.Either (..)
     , ByteString
     , Text
     , Map
@@ -41,11 +41,11 @@ module SafePrelude
     , Double
     , Proxy (..)
       -- * Type classes
-    , Ord (..)
+    , Prelude.Ord (..)
     , Eq (..)
     , Bounded (..)
     , Show (..)
-    , Read (..)
+    , Prelude.Read (..)
     , Functor (fmap, (<$))
     , Applicative (pure, (<*>), (*>), (<*))
     , Alternative (empty, (<|>), some, many)
@@ -288,7 +288,7 @@ import Data.Traversable hiding (mapM, sequence)
 import Data.String
 import Data.Int
 import Data.Word
-import Prelude (Maybe (..), Ordering (..), Bool (..), Char, IO, Either (..), Integer, Rational, Float, Double, Ord (..), Eq (..), Bounded (..), Show (..), Read (..), Num (..), Real (..), Integral (..), Fractional (..), Floating (..), RealFrac (..), RealFloat (..), (^), (^^), subtract, fromIntegral, realToFrac)
+import Prelude (Bool (..), Char, IO, Integer, Rational, Float, Double, Eq (..), Bounded (..), Show (..), Num (..), Real (..), Integral (..), Fractional (..), Floating (..), RealFrac (..), RealFloat (..), (^), (^^), subtract, fromIntegral, realToFrac)
 import Data.Map (Map)
 import Data.IntMap (IntMap)
 import Data.HashMap.Strict (HashMap)
@@ -446,5 +446,5 @@ x & f = f x
 f <$!> m = do
   x <- m
   let z = f x
-  z `seq` return z
+  z `Prelude.seq` return z
 #endif
