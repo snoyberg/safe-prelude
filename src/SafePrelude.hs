@@ -1,3 +1,4 @@
+{-# LANGUAGE CPP #-}
 -- TODO Consider replacing all IO-specific functions being reexported
 -- to MonadIO
 module SafePrelude
@@ -56,7 +57,9 @@ module SafePrelude
     , Exception (toException, fromException)
     , MonadCatch
     , MonadMask
-    , Foldable (fold, foldMap, foldr, foldr', foldl, foldl', toList, null, length, elem, maximum, minimum)
+    , Foldable (fold, foldMap, foldr, foldr', foldl, foldl')
+    -- separate from the type class in earlier bases
+    , toList, null, length, elem
     , Traversable (traverse, sequenceA)
     , Typeable
     , IsString (..)
@@ -410,3 +413,19 @@ forM = for
 -- @since 0.1.0.0
 sequence :: (Applicative m, Traversable t) => t (m a) -> m (t a)
 sequence = sequenceA
+
+#if !MIN_VERSION_base(4, 8, 0)
+-- Copied straight from base
+
+-- | Test whether the structure is empty. The default implementation is
+-- optimized for structures that are similar to cons-lists, because there
+-- is no general way to do better.
+null :: t a -> Bool
+null = foldr (\_ _ -> False) True
+
+-- | Returns the size/length of a finite structure as an 'Int'.  The
+-- default implementation is optimized for structures that are similar to
+-- cons-lists, because there is no general way to do better.
+length :: t a -> Int
+length = foldl' (\c _ -> c+1) 0
+#endif
