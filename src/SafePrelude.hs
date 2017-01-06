@@ -420,13 +420,13 @@ sequence = sequenceA
 -- | Test whether the structure is empty. The default implementation is
 -- optimized for structures that are similar to cons-lists, because there
 -- is no general way to do better.
-null :: t a -> Bool
+null :: Foldable t => t a -> Bool
 null = foldr (\_ _ -> False) True
 
 -- | Returns the size/length of a finite structure as an 'Int'.  The
 -- default implementation is optimized for structures that are similar to
 -- cons-lists, because there is no general way to do better.
-length :: t a -> Int
+length :: Foldable t => t a -> Int
 length = foldl' (\c _ -> c+1) 0
 
 -- | '&' is a reverse application operator.  This provides notational
